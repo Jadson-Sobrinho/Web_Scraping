@@ -1,0 +1,5 @@
+venv
+config/.env
+data/input
+data/output
+input.zip
