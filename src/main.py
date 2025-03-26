@@ -1,12 +1,14 @@
 import requests
 from bs4 import BeautifulSoup
 import os
+import zipfile
 
 
 url = "https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos"
 
 input_dir = 'C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\input'
 response = requests.get(url)
+pdf_files = []
 
 
 if response.status_code == 200:
@@ -36,9 +38,17 @@ if response.status_code == 200:
             with open(pdf_path, 'wb') as pdf_file:
                 pdf_file.write(pdf_response.content)
 
+            pdf_files.append(pdf_path)
             print("ok")
             
         else:
             print("erro")
 else:
     print("Erro ao acessar o site")
+
+zip = input_dir + ".zip"
+with zipfile.ZipFile(zip, "w") as zipped:
+    for pdf in pdf_files:
+        zipped.write(pdf, os.path.basename(pdf))
+        
+print("zipped")
