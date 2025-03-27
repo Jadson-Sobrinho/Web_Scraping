@@ -1,6 +1,7 @@
 import pdfplumber
 import pandas as pd
 import os
+import zipfile
 
 
 #TO_DO: Importar o caminho do pacote de werb_scraping ou verficar se tem no diretorio "input"
@@ -29,4 +30,11 @@ if completed_table:
 
 else:
     print("Nenhuma tabela encontrada")
+zip_name = os.path.join(output_dir, f"Teste_Jadson_Sobrinho.zip")
+
+
+with zipfile.ZipFile(zip_name, "w") as zipped:
+   zipped.write(csv_path, os.path.basename(csv_path))
+
+print("zipped")
 
