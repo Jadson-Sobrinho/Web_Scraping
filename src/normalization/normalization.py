@@ -25,11 +25,15 @@ with pdfplumber.open(pdf_path) as pdf:
 if completed_table:
     final_df = pd.concat(completed_table, ignore_index=True)
     #print(final_df)
+
+    final_df.replace({"OD": "Seg. Odontológica", "AMB": "Seg. Ambulatorial"}, inplace=True)
+
     final_df.to_csv(csv_path, index=False, encoding="utf-8-sig", sep=";")
     #print(completed_table)
 
 else:
     print("Nenhuma tabela encontrada")
+
 zip_name = os.path.join(output_dir, f"Teste_Jadson_Sobrinho.zip")
 
 
