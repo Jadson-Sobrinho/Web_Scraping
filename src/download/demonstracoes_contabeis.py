@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os
+import zipfile
 
 
 input_dir = os.getenv('INPUT_DIR', 'C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\input')
@@ -49,3 +50,10 @@ for year in years:
         print(f"Erro {e}")
 
 print("Baixado")
+
+for file in os.listdir(input_dir):
+    if file.endswith(".zip"):
+        zip_path = os.path.join(input_dir, file)
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            zip_ref.extractall(output_dir)
+        print("Extraido: {file}")
