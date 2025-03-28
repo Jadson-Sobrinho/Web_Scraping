@@ -4,8 +4,8 @@ import os
 import zipfile
 
 
-input_dir = os.getenv('INPUT_DIR', 'C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\input')
-output_dir = os.getenv('OUTPUT_DIR', 'C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\output')
+input_dir = "data\\input\\Teste3"
+output_dir = "data\\output\\Teste3"
 
 
 os.makedirs(input_dir, exist_ok=True)
@@ -56,4 +56,5 @@ for file in os.listdir(input_dir):
         zip_path = os.path.join(input_dir, file)
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
             zip_ref.extractall(output_dir)
-        print("Extraido: {file}")
+print("Extraido")
+
