@@ -3,10 +3,8 @@ from bs4 import BeautifulSoup
 import os
 
 
-input_dir = os.getenv('INPUT_DIR', 'C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\input')
-output_dir = os.getenv('OUTPUT_DIR', 'C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\output')
+output_dir = ("data\\output\\Teste3\\Relatorio")
 
-os.makedirs(input_dir, exist_ok=True)
 os.makedirs(output_dir, exist_ok=True)
 
 
@@ -24,7 +22,7 @@ try:
             
             if file_name.endswith(".csv"):
                 file_url = f"{url}{file_name}" 
-                file_path = os.path.join(input_dir, file_name) 
+                file_path = os.path.join(output_dir, file_name) 
 
                 print(f"Baixando: {file_name}")
 
