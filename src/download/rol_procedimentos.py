@@ -2,18 +2,18 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import zipfile
-
+from pathlib import Path
 
 
 url = "https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos"
 
 
-#TO-DO: Criar diretorio para os anexos caso não exista 
+input_dir =  Path("data\\input\\Teste1")
+output_dir = Path("data\\output\\Teste1")
 
-#TO_DO: Colocar as variaveis de diretorios no env
+input_dir.mkdir(parents=True, exist_ok=True)
+output_dir.mkdir(parents=True, exist_ok=True)
 
-input_dir = 'C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\input'
-output_dir = "C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\output"
 zip_name = os.path.join(output_dir, "Anexos.zip")
 response = requests.get(url)
 pdf_files = []
