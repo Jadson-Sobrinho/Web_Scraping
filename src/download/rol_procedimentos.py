@@ -7,12 +7,14 @@ import zipfile
 
 url = "https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos"
 
+
 #TO-DO: Criar diretorio para os anexos caso não exista 
 
 #TO_DO: Colocar as variaveis de diretorios no env
 
 input_dir = 'C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\input'
 output_dir = "C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\output"
+zip_path = output_dir, "Anexos"
 response = requests.get(url)
 pdf_files = []
 
