@@ -4,8 +4,8 @@ import os
 import zipfile
 
 
-input_dir = "data\\input\\Teste3"
-output_dir = "data\\output\\Teste3"
+input_dir = "data\\input\\Teste3\\Periodos"
+output_dir = "data\\output\\Teste3\\Periodos"
 
 
 os.makedirs(input_dir, exist_ok=True)
