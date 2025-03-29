@@ -8,8 +8,5 @@ def main():
     conn.close()
     ETL.save_query_result(query_result)
 
-    ETL.normalize_df()
-    ETL.zip_file()
-
 if __name__ == "__main__":
     main()
