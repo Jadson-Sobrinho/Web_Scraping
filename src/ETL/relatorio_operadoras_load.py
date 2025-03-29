@@ -32,13 +32,13 @@ def merge_datasets(df_relatorio_cadop, df_operadoras_ativas):
     #Convete os dados das colunas em numerico (estavam sendo interpretadas como string, por isso não estava fazendo o calculo)
     df_operadoras_ativas["VL_SALDO_INICIAL"] = df_operadoras_ativas["VL_SALDO_INICIAL"].str.replace(".", "").str.replace(",", ".").astype(float)
     df_operadoras_ativas["VL_SALDO_FINAL"] = df_operadoras_ativas["VL_SALDO_FINAL"].str.replace(".", "").str.replace(",", ".").astype(float)
-    
+    save_query_result
     df_merged = pd.merge(
         df_relatorio_cadop,
         df_operadoras_ativas,
         left_on="Registro_ANS",
         right_on="REG_ANS",
-        how="inner"
+        how="right"
     )
     return df_merged
 
