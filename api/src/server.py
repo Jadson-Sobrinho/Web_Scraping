@@ -148,7 +148,10 @@ def obter_dados():
                     descricao,
                     vl_saldo_inicial,
                     vl_saldo_final,
-                    despesas FROM empresa LIMIT ? OFFSET ?
+                    despesas 
+                   FROM empresa 
+                    WHERE descricao = "%SINISTROS CONHECIDOS OU AVISADOS DE ASSISTÊNCIA A SAÚDE MEDICO%"
+                   LIMIT ? OFFSET ?
                    """, (page_size, offset))
     lines = cursor.fetchall()
     conn.close()

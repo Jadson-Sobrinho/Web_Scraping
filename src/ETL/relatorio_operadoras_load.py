@@ -30,8 +30,8 @@ def load_datas():
 
 def merge_datasets(df_relatorio_cadop, df_operadoras_ativas):
     #Convete os dados das colunas em numerico (estavam sendo interpretadas como string, por isso não estava fazendo o calculo)
-    df_operadoras_ativas["VL_SALDO_INICIAL"] = pd.to_numeric(df_operadoras_ativas["VL_SALDO_INICIAL"], errors="coerce")
-    df_operadoras_ativas["VL_SALDO_FINAL"] = pd.to_numeric(df_operadoras_ativas["VL_SALDO_FINAL"], errors="coerce")
+    df_operadoras_ativas["VL_SALDO_INICIAL"] = df_operadoras_ativas["VL_SALDO_INICIAL"].str.replace(".", "").str.replace(",", ".").astype(float)
+    df_operadoras_ativas["VL_SALDO_FINAL"] = df_operadoras_ativas["VL_SALDO_FINAL"].str.replace(".", "").str.replace(",", ".").astype(float)
     
     df_merged = pd.merge(
         df_relatorio_cadop,
@@ -40,7 +40,6 @@ def merge_datasets(df_relatorio_cadop, df_operadoras_ativas):
         right_on="REG_ANS",
         how="inner"
     )
-    df_merged["Despesas"] = df_merged["VL_SALDO_FINAL"] - df_merged["VL_SALDO_INICIAL"]
     return df_merged
 
 def save_query_result(df, output_file=relatorio_normalizado_path):
