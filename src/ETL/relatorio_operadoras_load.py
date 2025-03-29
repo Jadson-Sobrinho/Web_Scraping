@@ -1,70 +1,47 @@
-import sqlite3
-import pandas as pd
-import glob
 import os
+import glob
+import pandas as pd
 
-relatorio_cadop_path = ("data\\output\\Teste3\\Relatorio\\Relatorio_cadop.csv")
-output_dir = ("data\\output\\Teste3\\Periodos")
-operadoras_ativas_path = ("data\\output\\Teste3\\Periodos\\Operadoras_ativas_2_ultimos_anos.csv")
+
+relatorio_cadop_path = "data/output/Teste3/Relatorio/Relatorio_cadop.csv"
+output_dir = "data/output/Teste3/Periodos"
+base_path = "data/output/Teste3"
+operadoras_ativas_path = os.path.join(output_dir, "Operadoras_ativas_2_ultimos_anos.csv")
+relatorio_normalizado_path = os.path.join(base_path, "Relatorio_normalizado.csv")
 
 os.makedirs(output_dir, exist_ok=True)
 
 def merge_files():
-    file_pattern = ("*T*.csv")
-
+    file_pattern = "*T*.csv"
     files = glob.glob(os.path.join(output_dir, file_pattern))
-
-    dfs = []
-    for file in files:
-        df = pd.read_csv(file, encoding="utf-8", sep=";", engine="python")
-        dfs.append(df)
-
-    df_consolidated = pd.concat(dfs, ignore_index=True)
-
-    df_consolidated.to_csv(operadoras_ativas_path, index=False, encoding="utf-8-sig", sep=";")
     
-    print(df_consolidated)
+    if not files:
+        raise FileNotFoundError("Nenhum arquivo encontrado com o padrão especificado.")
+    
+    dfs = [pd.read_csv(file, encoding="utf-8", sep=";", engine="c") for file in files]
+    df_consolidated = pd.concat(dfs, ignore_index=True)
+    df_consolidated.to_csv(operadoras_ativas_path, index=False, encoding="utf-8-sig", sep=";")
+    return df_consolidated
 
 def load_datas():
     df_relatorio_cadop = pd.read_csv(relatorio_cadop_path, encoding='utf-8-sig', sep=';')
     df_operadoras_ativas = pd.read_csv(operadoras_ativas_path, encoding='utf-8-sig', sep=';')
     return df_relatorio_cadop, df_operadoras_ativas
 
-def create_database(df_relatorio_cadop, df_operadoras_ativas):
-    conn = sqlite3.connect(":memory:")
-    df_relatorio_cadop.to_sql("Relatorio_cadop", conn, index=False, if_exists="replace")
-    df_operadoras_ativas.to_sql("operadoras_ativas", conn, index=False, if_exists="replace")
-    return conn
-
-def execute_query(conn):
+def merge_datasets(df_relatorio_cadop, df_operadoras_ativas):
+    #Convete os dados das colunas em numerico (estavam sendo interpretadas como string, por isso não estava fazendo o calculo)
+    df_operadoras_ativas["VL_SALDO_INICIAL"] = pd.to_numeric(df_operadoras_ativas["VL_SALDO_INICIAL"], errors="coerce")
+    df_operadoras_ativas["VL_SALDO_FINAL"] = pd.to_numeric(df_operadoras_ativas["VL_SALDO_FINAL"], errors="coerce")
     
-    query = """
-    SELECT
-        RC.Registro_ANS,
-        RC.CNPJ,
-        RC.Razao_Social,
-        RC.Modalidade,
-        RC.Logradouro,
-        RC.Numero,
-        RC.Bairro,
-        RC.Cidade,
-        RC.UF,
-        RC.CEP,
-        RC.Endereco_eletronico AS Email,
-        OA.DESCRICAO AS Descricao,
-        SUM(OA.VL_SALDO_INICIAL) AS VL_Saldo_Inicial,
-        SUM(OA.VL_SALDO_FINAL) AS VL_Saldo_Final,
-        OA.DATA AS Periodo
-    FROM 
-        Relatorio_cadop as RC
-    JOIN 
-        operadoras_ativas as OA ON RC.Registro_ANS = OA.REG_ANS
-    GROUP BY
-        OA.DESCRICAO
-    """
-    return pd.read_sql_query(query, conn)
+    df_merged = pd.merge(
+        df_relatorio_cadop,
+        df_operadoras_ativas,
+        left_on="Registro_ANS",
+        right_on="REG_ANS",
+        how="inner"
+    )
+    df_merged["Despesas"] = df_merged["VL_SALDO_FINAL"] - df_merged["VL_SALDO_INICIAL"]
+    return df_merged
 
-def save_query_result(query_result):
-
-    output_file = output_dir + "\\Ralatorio_normalizado.csv"
-    query_result.to_csv(output_file, index=False, encoding="utf-8-sig", sep=";")
+def save_query_result(df, output_file=relatorio_normalizado_path):
+    df.to_csv(output_file, index=False, encoding="utf-8-sig", sep=";")
