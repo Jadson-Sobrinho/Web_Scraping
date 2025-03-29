@@ -50,7 +50,3 @@ def zip_file():
         zipped.write(csv_path, os.path.basename(csv_path))
 
     print("zipped")
-
-#Tirar caso for usar na inteface
-#normalize_df()
-#zip_file()
