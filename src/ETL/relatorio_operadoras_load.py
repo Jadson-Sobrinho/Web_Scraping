@@ -7,7 +7,6 @@ relatorio_cadop_path = ("data\\output\\Teste3\\Relatorio\\Relatorio_cadop.csv")
 output_dir = ("data\\output\\Teste3\\Periodos")
 operadoras_ativas_path = ("data\\output\\Teste3\\Periodos\\Operadoras_ativas_2_ultimos_anos.csv")
 
-
 os.makedirs(output_dir, exist_ok=True)
 
 def merge_files():

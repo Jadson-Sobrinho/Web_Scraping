@@ -5,7 +5,6 @@ import zipfile
 from pathlib import Path
 
 
-
 pdf_path = "data\\input\\Teste1\\Anexo_I_Rol_2021RN_465.2021_RN627L.2024.pdf"
 
 output_dir = Path("data\\output\\Teste2")
@@ -53,5 +52,5 @@ def zip_file():
     print("zipped")
 
 #Tirar caso for usar na inteface
-normalize_df()
-zip_file()
+#normalize_df()
+#zip_file()
