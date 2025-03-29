@@ -2,7 +2,7 @@ import sqlite3
 import pandas as pd
 
 relatorio_cadop_path = ("C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\input\\Relatorio_cadop.csv")
-operadoras_ativas_path = ("C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\output\\4T2024.csv")
+operadoras_ativas_path = ("C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\output\\Teste3\\Periodos\\Operadoras_ativas_2_ultimos_anos.csv")
 output_dir = ("C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\output")
 
 def load_datas():
