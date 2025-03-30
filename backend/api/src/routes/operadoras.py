@@ -14,12 +14,20 @@ def get_datas():
     page = int(request.args.get("page", 1))
     page_size = int(request.args.get("page_size", 10))
     offset = (page - 1) * page_size
+
     Razao_Social = request.args.get("Razao_Social")
     CNPJ = request.args.get("CNPJ")
     Registro_ANS = request.args.get("Registro_ANS")
+    DATA = request.args.get("DATA")
+    search_Razao_Social_pattern = f"%{Razao_Social}%"
+
     cursor = conn.cursor()
 
-    search_Razao_Social_pattern = f"%{Razao_Social}%"
+    
+
+    # TO-DO: Ajustar para fazer uma consulta dinamicamente
+    # TO-DO: Adicionar filtro de periodo de inicio e fim
+    
     cursor.execute("""
                     SELECT 
                         Registro_ANS, 
@@ -32,9 +40,10 @@ def get_datas():
                         DATA
                     FROM empresa
                     WHERE 
-                        Razao_Social LIKE ?
-                        OR CNPJ = ?
-                        OR Registro_ANS = ?
+                        (Razao_Social LIKE ? OR ? IS NULL)
+                        AND (CNPJ = ? OR ? IS NULL)
+                        AND (Registro_ANS = ? OR ? IS NULL)
+                        AND (DATA = ? OR ? IS NULL)
                    GROUP BY 
                         Registro_ANS, 
                         CNPJ, 
@@ -44,7 +53,15 @@ def get_datas():
                     ORDER BY 
                         DATA DESC
                     LIMIT 100;
-                   """, (search_Razao_Social_pattern, CNPJ, Registro_ANS, ))
+                   """, (search_Razao_Social_pattern,
+                         search_Razao_Social_pattern,
+                         CNPJ,
+                         CNPJ,  
+                         Registro_ANS,
+                         Registro_ANS, 
+                         DATA,
+                         DATA ))
+
     lines = cursor.fetchall()
     conn.close()
 
