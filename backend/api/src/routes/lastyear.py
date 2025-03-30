@@ -9,7 +9,7 @@ from database.db_connection import get_db_connection
 bp = Blueprint('lastyear', __name__)
 
 @bp.route("/api/data/lastyear", methods=["GET"])
-def get_dados():
+def get_datas():
     conn = get_db_connection()
     page = int(request.args.get("page", 1))
     page_size = int(request.args.get("page_size", 10))
