@@ -1,22 +1,16 @@
-from flask import Flask, Response, request
+from flask import Blueprint, Response, request
 import json
 import sys
 import os
 
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..")))
 from database.db_connection import get_db_connection
 
+bp = Blueprint('quarter', __name__)
 
-#TO-DO: Normalizar as datas em um formato só
-
-
-app = Flask(__name__)
-
-conn = get_db_connection()
-
-@app.route("/api/data", methods=["GET"])
-def obter_dados():
+@bp.route("/api/data/quarter", methods=["GET"])
+def get_dados():
+    conn = get_db_connection()
     page = int(request.args.get("page", 1))
     page_size = int(request.args.get("page_size", 10))
     offset = (page - 1) * page_size
@@ -52,8 +46,3 @@ def obter_dados():
     result = [dict(row) for row in lines ]
     json_output = json.dumps(result, ensure_ascii=False, indent=4, sort_keys=False)
     return Response(json_output, content_type="application/json")
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-
