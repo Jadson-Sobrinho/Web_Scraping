@@ -18,7 +18,18 @@ def merge_files():
     if not files:
         raise FileNotFoundError("Nenhum arquivo encontrado com o padrão especificado.")
     
-    dfs = [pd.read_csv(file, encoding="utf-8", sep=";", engine="c") for file in files]
+    dfs =[]
+    for file in files:
+        chunk = pd.read_csv(file, encoding="utf-8", sep=";", engine="c")
+
+        try:
+            chunk["DATA"] = pd.to_datetime(chunk["DATA"], format="%Y-%m-%d").dt.strftime("%Y-%m-%d")
+        except ValueError:
+            chunk["DATA"] = pd.to_datetime(chunk["DATA"], format="%d/%m/%Y").dt.strftime("%Y-%m-%d")
+        dfs.append(chunk)
+
+    
+    #dfs = [pd.read_csv(file, encoding="utf-8", sep=";", engine="c") for file in files]
     df_consolidated = pd.concat(dfs, ignore_index=True)
     df_consolidated.to_csv(operadoras_ativas_path, index=False, encoding="utf-8-sig", sep=";")
     return df_consolidated
@@ -32,6 +43,8 @@ def merge_datasets(df_relatorio_cadop, df_operadoras_ativas):
     #Convete os dados das colunas em numerico (estavam sendo interpretadas como string, por isso não estava fazendo o calculo)
     df_operadoras_ativas["VL_SALDO_INICIAL"] = df_operadoras_ativas["VL_SALDO_INICIAL"].str.replace(".", "").str.replace(",", ".").astype(float)
     df_operadoras_ativas["VL_SALDO_FINAL"] = df_operadoras_ativas["VL_SALDO_FINAL"].str.replace(".", "").str.replace(",", ".").astype(float)
+    #print(df_operadoras_ativas["DATA"].sample(10).unique())
+
     save_query_result
     df_merged = pd.merge(
         df_relatorio_cadop,
