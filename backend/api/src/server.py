@@ -1,10 +1,11 @@
-from flask import Flask, Response, request, jsonify
-import csv
+from flask import Flask, Response, request
 import json
+import sys
 import os
-import sqlite3
-from collections import OrderedDict #Deixa na ordem ao converter para JSON
-import pandas as pd
+
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+from database.db_connection import get_db_connection
 
 
 #TO-DO: Normalizar as datas em um formato só
@@ -12,34 +13,7 @@ import pandas as pd
 
 app = Flask(__name__)
 
-
-db_path = "dados.db"
-csv_path = "C:\\Users\\c31f4\\OneDrive\\Desktop\\PROJETOS\\Web_Scraping\\data\\output\\Teste3\\Relatorio_normalizado.csv"
-
-def get_db_connection():
-    """Cria e retorna uma conexão com o banco SQLite."""
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row  # Permite acessar as colunas pelo nome
-    return conn
-
-
-def import_csv(csv_path, db_path, chunk_size=2000):
-    
-    conn = sqlite3.connect(db_path)
-
-    for chunk in pd.read_csv(csv_path, sep=";", encoding="utf-8-sig", chunksize=chunk_size):
-
-        #chunk["VL_SALDO_INICIAL"] = pd.to_numeric(chunk["VL_SALDO_INICIAL"], errors="coerce")
-        #chunk["VL_SALDO_FINAL"] = pd.to_numeric(chunk["VL_SALDO_FINAL"], errors="coerce")
-
-
-        chunk.to_sql("empresa", conn, if_exists="append", index=False)
-
-    conn.close()
-    print("Dados importados")
-
-
-import_csv(csv_path, db_path)
+conn = get_db_connection()
 
 @app.route("/api/data", methods=["GET"])
 def obter_dados():
@@ -47,7 +21,6 @@ def obter_dados():
     page_size = int(request.args.get("page_size", 10))
     offset = (page - 1) * page_size
 
-    conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute("""
                     SELECT 

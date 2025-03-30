@@ -8,8 +8,8 @@ from pathlib import Path
 url = "https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos"
 
 
-input_dir =  Path("data\\input\\Teste1")
-output_dir = Path("data\\output\\Teste1")
+input_dir =  Path("backend\\datasets\\input\\Teste1")
+output_dir = Path("backend\\datasets\\output\\Teste1")
 
 input_dir.mkdir(parents=True, exist_ok=True)
 output_dir.mkdir(parents=True, exist_ok=True)

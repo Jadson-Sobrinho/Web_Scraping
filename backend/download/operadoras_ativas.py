@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import os
 
 
-output_dir = ("data\\output\\Teste3\\Relatorio")
+output_dir = "backend\\datasets\\output\\Teste3\\Relatorio"
 
 os.makedirs(output_dir, exist_ok=True)
 

@@ -6,9 +6,9 @@ from pathlib import Path
 
 
 
-pdf_path = "data\\input\\Teste1\\Anexo_I_Rol_2021RN_465.2021_RN627L.2024.pdf"
+pdf_path = "backend\\datasets\\input\\Teste1\\Anexo_I_Rol_2021RN_465.2021_RN627L.2024.pdf"
 
-output_dir = Path("data\\output\\Teste2")
+output_dir = Path("backend\\datasets\\output\\Teste2")
 output_dir.mkdir(parents=True, exist_ok=True)
 
 csv_path = os.path.join(output_dir, "Rol_processedimentos_eventos.csv")

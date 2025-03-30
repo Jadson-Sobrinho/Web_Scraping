@@ -36,3 +36,5 @@ Este código faz web scraping para baixar arquivos PDF de um site governamental 
 ## TO-DOs
 - Criar o diretório para os anexos caso não exista
 - Colocar as variáveis de diretórios no ambiente
+
+
