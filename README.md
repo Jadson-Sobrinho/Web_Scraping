@@ -241,5 +241,6 @@ WEB_SCRAPING/
   - Não mesclar os dados das operadoras de plano de saúde ativa e demonstrações contabeis, colocar cada arquivo como uma tabela para otimizar a consulta de dados;
   - Utilizar Spark para grande quantidade de dados;
   - Refatorar as query's;
+  - Adicionar Indeces nos campos mais utilizados;
   - Pesquisar por alguma ORM;
   - Integrar ao front-end com framework vue.js
