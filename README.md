@@ -1,157 +1,89 @@
-# Ferramentas e Bibliotecas utilizadas
-1. Bibliotecas para Manipulação de Arquivos e Diretórios
-    os → Criar diretórios e manipular caminhos de arquivos.
+# Documentação do Projeto
 
-    pathlib.Path → Gerenciar caminhos de arquivos e diretórios de forma mais organizada.
+## Ferramentas e Bibliotecas Utilizadas
 
-    glob → Buscar arquivos em diretórios com padrões específicos.
+### 1. Manipulação de Arquivos e Diretórios
+- **`os`**: Criar diretórios e manipular caminhos
+- **`pathlib.Path`**: Gerenciar caminhos de forma organizada
+- **`glob`**: Buscar arquivos com padrões específicos
+- **`zipfile`**: Compactar/descompactar arquivos ZIP
 
-    zipfile → Compactar e descompactar arquivos ZIP.
+### 2. Web Scraping e HTTP
+- **`requests`**: Requisições HTTP
+- **`BeautifulSoup (bs4)`**: Parsing de HTML
 
-2. Web Scraping e Requisições HTTP
-    requests → Fazer requisições HTTP para baixar arquivos e acessar páginas web.
+### 3. Manipulação de Dados
+- **`pandas`**: Processamento de dados estruturados
+- **`pdfplumber`**: Extração de dados de PDFs
 
-    BeautifulSoup (do bs4) → Fazer parsing de HTML para extrair links e informações das páginas.
+### 4. Banco de Dados
+- **`sqlite3`**: Banco de dados SQLite
+- **`pandas.to_sql()`**: Inserção de dados no banco
 
-3. Manipulação de Dados
-    pandas → Processar, manipular e analisar dados estruturados (arquivos CSV, tabelas extraídas de PDFs).
+### 5. Framework Web (API)
+- **`Flask`**: Servidor web e APIs
+- **`flask.Blueprint`**: Modularização de rotas
+- **`flask.Response`**: Respostas JSON
+- **`flask.request`**: Captura de parâmetros
 
-    pdfplumber → Extrair tabelas e informações de arquivos PDF.
+### 6. Outros
+- **`sys`**: Manipulação de sys.path
+- **`json`**: Manipulação de JSON
 
-4. Banco de Dados
-    sqlite3 (via database.db_connection) → Gerenciar e armazenar dados em um banco SQLite.
+---
 
-    pandas.to_sql() → Inserir dados diretamente do Pandas para o banco de dados.
+## 🔄 Fluxo Principal
 
-5. Framework Web para API
-    Flask → Criar um servidor web e expor APIs.
+### 1. Web-Scraping
+- Acessar site governamental
+- Localizar e baixar Anexos I e II
+- Salvar em diretório específico
+- Compactar em .zip
 
-    flask.Blueprint → Modularizar rotas da API.
+### 2. Transformação de Dados
+- Extrair dados do Anexo I
+- Salvar em CSV
+- Substituir abreviações (OD → Odontológico, AMB → Ambulatorial)
+- Compactar em .zip
 
-    flask.Response → Retornar respostas JSON da API.
+### 3. Banco de Dados
+- Baixar arquivos dos últimos 2 anos
+- Descompactar e mesclar trimestres
+- Baixar dados de operadoras ativas
+- Mesclar datasets pelo Registro ANS
+- Carregar no SQLite
 
-    flask.request → Capturar parâmetros de requisição.
+### 4. API
+- Endpoints:
+  - Top 10 operadoras com maiores despesas (último trimestre)
+  - Top 10 operadoras com maiores despesas (último ano)
+  - Busca por razão social/CNPJ/data/Registro ANS
 
-6. Outros
-    sys → Modificar sys.path para importar módulos de diretórios externos.
+---
 
-    json → Manipular e retornar dados em formato JSON.
+## Estrutura de Pastas
 
-
-## Fluxo
- 1. Web-Scraping:
-    - Acessar o site governamental; 
-    - Procurar pelos Anexos I e II;
-    - Fazer o download; 
-    - Salvar em um diretorio;
-    - Compactar em um arquivo .zip. 
-
- 2. Transformação de dados:
-    - Extrair so dados do Anexo I;
-    - Salvar os dados em um arquivo .cvs;
-    - Substitui as abreviações OD e AMB pela nomeclatura completa;
-    - Compacta o arquivo em .zip.
-
- 3. Banco de dados:
-    - Acessar o site governamental das demonstrações contabéis;
-    - Procurar pelos arquivos dos dois ultimos anos;
-    - Baixa os arquivos .zip;
-    - Descompacta os arquivo;
-    - Mescla todos os arquivos trimestrais em um único arquivo;
-    - Acessar o site governamental das operadoras de plano de saúde ativas;
-    - Baixa o arquivo de operadoras de plano de saúde ativas;
-    - Mescla o arquivo de demonstrações contabéis com o arquivi de operadoras de plano de sáude ativas pelo registro ANS;
-    - Carrega os dados do novo arquivo mesclado em um banco de dados com SQLite.
- 
- 4. API:
-    - Realiza uma requisição HTTP com: 10 operadoras com maiores despesas em "EVENTOS/ SINISTROS CONHECIDOS OU 
-      AVISADOS DE ASSISTÊNCIA A SAÚDE MEDICO HOSPITALAR" no último trimestre;
-    - Realia uma requisição com: 10 operadoras com maiores despesas nessa categoria no último ano;
-    - Realiza uma requisição pela razão social ou CNPJ ou data ou Resgitro ANS.
-
-## Estrutura das pastas:
-```
+```plaintext
 WEB_SCRAPING/
 │── backend/
 │   ├── api/
 │   │   ├── src/
-│   │   │   ├── routes/
-│   │   │   │   ├── __pycache__/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── lastyear.py
-│   │   │   │   ├── operadoras.py
-│   │   │   │   ├── quarter.py
-│   │   │   ├── app.py
-│   │   │   ├── database/
-│   │   │   │   ├── __pycache__/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── data.db
-│   │   │   │   ├── db_connection.py
-│   │   │   ├── datasets/
-│   │   │   │   ├── input/
-|   |   |   |   |         |── Teste1/
-|   |   |   |   |             |── Anexo I
-|   |   |   |   |             |── Anexo II
-|   |   |   |   |         |── Teste3/
-|   |   |   |   |         |         |── Periodos/
-|   |   |   |   |         |         |── 1T2023.zip
-|   |   |   |   |         |         |── 2T2023.zip
-|   |   |   |   |         |         |── 3T2023.zip
-|   |   |   |   |         |         |── 4T2023.zip
-|   |   |   |   |         |         |── 1T2024.zip
-|   |   |   |   |         |         |── 2T2024.zip
-|   |   |   |   |         |         |── 3T2024.zip
-|   |   |   |   |         |         |── 4T2024.zip
-│   │   │   │   ├── output/
-|   |   |   |   |         |── Teste1/
-|   |   |   |   |             |── Anexo I.zip
-|   |   |   |   |         |── Teste3/
-|   |   |   |   |         |         |── Periodos/
-|   |   |   |   |         |             |── 1T2023.csv
-|   |   |   |   |         |             |── 2T2023.csv
-|   |   |   |   |         |             |── 3T2023.csv
-|   |   |   |   |         |             |── 4T2023.csv
-|   |   |   |   |         |             |── 1T2024.csv
-|   |   |   |   |         |             |── 2T2024.csv
-|   |   |   |   |         |             |── 3T2024.csv
-|   |   |   |   |         |             |── 4T2024.csv
-|   |   |   |   |         |         |── Relatorio/
-|   |   |   |   |         |             |── Relatorio_cadop.csv
-|   |   |   |   |         |         |── Relatorio_normalizado.csv
-│   ├── download/
-│   │   ├── __init__.py
-│   │   ├── demonstracoes_contabeis.py
-│   │   ├── operadoras_ativas.py
-│   │   ├── rol_procedimentos.py
-│   ├── ETL/
-│   │   ├── __pycache__/
-│   │   ├── __init__.py
-│   │   ├── relatorio_normalizado_database_load.py
-│   │   ├── relatorio_operadoras_csv_load.py
-│   │   ├── rol_procedimentos_transform.py
-├── config/
-|   |── .env
-├── frontend/
-├──.gitignore
+│   │   │   ├── routes/              # Rotas da API
+│   │   │   ├── app.py               # Aplicação Flask
+│   │   │   ├── database/            # Configurações do banco
+│   │   │   ├── datasets/            # Arquivos de entrada/saída
+│   ├── download/                    # Scripts de download
+│   ├── ETL/                         # Scripts de transformação
+├── config/                          # Configurações
+├── frontend/                        # Frontend (futura implementação)
+├── .gitignore
 ├── README.md
 ├── Requirements.txt
 ├── TesteTecnico.postman_collection.json
-
 ```
-
-## Fluxo de execução
-  1. Vá na pasta download/rol_procedimentos.py e execute;
-  2. Vá na pasta ETL/rol_procedimentos_transform.py e execute;
-  3. Vá na pasta download/demonstracoes_contabeis.py e execute;
-  4. Vá na pasta download/operadoras_ativas.py e execute;
-  5. Vá na pasta ETL/relatorio_operadoras_csv_load.py e execute;
-  6. Vá na pasta ETL/relatorio_normalizado_database_load e execute;
-  7. Vá em api/src/app.py e execute;
-  8. Vá em api/src/routes e execute as rotas que deseja ou importar as coleção com as requisições do postman.
-
 ## Documentação dos códigos
   1. download/rol_procedimentos.py:
-    ```
+
     requests.get(url): Acessa a página do governo e obtém seu conteúdo HTML.
 
     BeautifulSoup(response.text, 'html.parser'): Analisa o HTML da página.
@@ -163,7 +95,7 @@ WEB_SCRAPING/
     requests.get(pdf_link): Faz o download do PDF.
 
     zipfile.ZipFile(zip, "w"): Compacta todos os arquivos baixados em um ZIP.
-    ```
+    
 
   2. ETL/rol_procedimentos_transform.py:
       ```
@@ -172,7 +104,7 @@ WEB_SCRAPING/
       normalize_df(): Junta os dados extraídos, substitui valores e os salva em um CSV.
 
       zip_file(): Compacta o arquivo CSV gerado.
-      ```
+      
 
 
   3. download/demonstracoes_contabeis.py: 
