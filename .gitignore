@@ -1,5 +1,8 @@
 venv
 config/.env
-data/input
-data/output
-input.zip
+backend/datasets/input
+backend/datasets/output
+backend/ETL/__pycache__
+backend/database/__pycache__
+backend/database/data.db
+backend/api/src/routes/__pycache__

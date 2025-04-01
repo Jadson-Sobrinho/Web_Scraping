@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "e17cef82-c169-4fd2-bfd7-6869f88fa1ca",
+		"name": "TesteTecnico",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43029964",
+		"_collection_link": "https://www.postman.com/descent-module-technologist-2683317/my-workspace/collection/xkihgip/testetecnico?action=share&source=collection_link&creator=43029964"
+	},
+	"item": [
+		{
+			"name": "Trimestre",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/data/quarter",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"data",
+						"quarter"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UltimoAno",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/data/lastyear",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"data",
+						"lastyear"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ProcurarOperadoras",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/data/operadoras?Razao_Social=PETROBRAS&DATA=2024-04-01",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"data",
+						"operadoras"
+					],
+					"query": [
+						{
+							"key": "Razao_Social",
+							"value": "PETROBRAS",
+							"description": "Aqui vai a razão social da empresa"
+						},
+						{
+							"key": "CNPJ",
+							"value": "",
+							"description": "Aqui vai o CNPJ",
+							"disabled": true
+						},
+						{
+							"key": "DATA",
+							"value": "2024-04-01",
+							"description": "Aqui vai a data por trimestre Ex: 2024-07-01"
+						},
+						{
+							"key": "Registro_ANS",
+							"value": "",
+							"description": "Aqui é o Registro ANS",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
