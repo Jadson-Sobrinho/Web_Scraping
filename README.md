@@ -1,5 +1,3 @@
-coloque a seguinte doumentação em arquivo .md mais organizado:
-
 # Ferramentas e Bibliotecas utilizadas
 1. Bibliotecas para Manipulação de Arquivos e Diretórios
     os → Criar diretórios e manipular caminhos de arquivos.
